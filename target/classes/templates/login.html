@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <title>Đăng nhập</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            height: 100vh;
+            display: flex;
+        }
+
+        .container {
+            display: flex;
+            width: 100%;
+            height: 100%;
+        }
+
+        .left {
+        flex: 1;
+        background-image: url(../image/thpt-chuyen-vinh-phuc\(1\)\(1\).jpg);
+        background-size: cover;
+        background-position: 80% 50%;
+        background-repeat: no-repeat;
+        }
+        .form{
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .form-login{
+            max-width: 400px;
+            background: rgba(255, 255, 255, 0.8);
+            flex-grow: 1;
+            padding: 30px 50px 70px;
+            box-shadow: 3px 3px 20px 1px #ffffff;
+            margin-bottom: 100px;
+        }
+        .form-h1{
+            color: #2F80ED;
+            text-align: center;
+            font-size: 40px;
+            margin-bottom: 100px;
+
+        }
+        .form-group{
+            border-bottom: 1px solid #2F80ED;
+            margin-top: 15px;
+            margin-bottom: 50px;
+            display: flex;
+        }
+        .form-input{
+            background: transparent;
+            border: 0;
+            outline: 0;
+            color: rgb(0, 0, 0);
+            flex-grow: 1;
+            margin-bottom: 7px;
+        }
+        .form-input::placeholder{
+            color: #2F80ED;
+        }
+        .form-submit{
+            color: #2F80ED;
+            background-color: rgba(255, 255, 255, 0.812);
+            padding: 10px 0px;
+            margin: 5px;
+            text-transform: uppercase;
+            display: inline-block;
+            border: 1px solid #2F80ED;
+            width: 100%;
+            transition: .3s ease-in-out;
+            margin-top: 20px;
+        }
+        .form-submit:hover{
+            background-color: #cee3ff;
+        }
+        .form-group i{
+            color: rgb(0, 0, 0);
+            padding-right: 3px;
+        }
+        #eye i{
+           padding-right: 0;
+           cursor: pointer;
+        }
+        .form-btn{
+            display: flex;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="left">
+        <img src="" alt="">
+    </div>
+    <div class="form">
+        <form class="form-login">
+            <div>
+                <h1 class="form-h1">Đăng nhập</h1>
+            </div>
+            <div class="form-group">
+                <i class="fa-solid fa-user-tie"></i>
+                <input type="text" class="form-input" placeholder="Email" required>
+            </div>
+            <div class="form-group">
+                <i class="fa-solid fa-key"></i>
+                <input type="password" class="form-input" placeholder="Mật khẩu" required>
+                <div id="eye" >
+                    <i class="fa-solid fa-eye-slash"></i>
+                </div>
+            </div>
+            <div class="form-btn">
+                <input type="button" value="Đăng nhập" class="form-submit">
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script>
+    $(document).ready(function(){
+        $('#eye').click(function(){
+            $(this).toggleClass('open');
+            $(this).children('i').toggleClass('fa-solid fa-eye-slash fa-solid fa-eye');
+            if($(this).hasClass('open')){
+                $(this).prev().attr('type', 'text');
+            }
+            else{
+                $(this).prev().attr('type', 'password')
+            }
+        });
+    });
+</script>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../js/app.js"></script>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <title>Quản lý điểm học sinh</title>
+</head>
+<style>
+    .personal-info {
+        max-height: 0; /* Bắt đầu với chiều cao 0 để ẩn phần thông tin cá nhân */
+        overflow: hidden; /* Ẩn nội dung tràn ra */
+        padding: 0 20px; /* Padding bên trong nhưng không ảnh hưởng đến chiều cao ban đầu */
+        background-color: #ffffff;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin-top: 50px;
+        width: 250px;
+        margin-left: auto;
+        transition: max-height 0.5s ease, padding 0.5s ease; /* Tạo hiệu ứng cuộn mượt mà */
+    }
+    .personal-info.show {
+        max-height: 300px; /* Đặt chiều cao đủ lớn để chứa toàn bộ nội dung */
+        padding: 20px; /* Trả lại padding ban đầu khi hiển thị */
+    }
+
+    .personal-info h2 {
+        margin-bottom: 30px;
+        color: #2c3e50;
+    }
+
+    .personal-info p {
+        margin: 5px 0;
+        color: #34495e;
+    }
+
+    .account-info {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        padding: 20px;
+        width: 250px;
+        background-color: #ffffff;
+        border-radius: 10px;
+    }
+
+    .account-info i {
+        font-size: 24px;
+        margin-right: 10px;
+        color: #2c3e50;
+    }
+
+    .account-info a {
+        margin-right: 10px;
+        color: #2c3e50;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .account-info .logout-btn {
+        background-color: #e74c3c;
+        color: #fff;
+        padding: 5px 10px;
+        border-radius: 5px;
+        text-decoration: none;
+    }
+
+    .account-info .logout-btn:hover {
+        background-color: #c0392b;
+    }
+    .details{
+        color: #2c3e50;
+        border: none;
+        display: block;
+    }
+    .details p input{
+        color: #2c3e50;
+        border: none;
+        background-color: transparent;
+        font-size: 18px;
+    }
+</style>
+<body>
+    <div class="sidebar">
+        <div class="logo">
+            <img src="../image/logo.jpg" alt="Logo">
+        </div>
+        <ul class="menu">
+            <li><a href="Gvbm.html"><i class="fas fa-home"></i> Trang chủ</a></li>
+            <li class="submenu">
+                <a href="#"><i class="fas fa-user"></i> Quản lý lớp học</a>
+                <ul class="submenu-items">
+                    <li><a href="teacher.html">Thông tin giáo viên</a></li>
+                    <li><a href="teachingAssignment.html">Phân công giảng dạy</a></li>
+                </ul>
+            </li>
+            <li class="submenu">
+                <a href="#"><i class="fas fa-book"></i> Quản lý học tập</a>
+                <ul class="submenu-items">
+                    <li><a href="#">Quản lý điểm</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <div class="content">
+        <div class="account-info">
+            <i class="fas fa-user-circle"></i>
+            <a href="#" id="accountLink"><span>Username</span></a>
+            <a href="login.html" class="logout-btn">Đăng xuất</a>
+        </div>
+        <div class="personal-info" id="personalInfo">
+            <h2>Thông tin cá nhân</h2>
+            <div class="details">
+                <p><input type="text" value="Tên"></p>
+                <p><input type="text" value="email"></p>
+                <p><input type="text" value="SĐT"></p>
+                <p><input type="text" value="Môn"></p>
+            </div>
+        </div>
+        <!-- Nội dung chính của trang sẽ được đặt ở đây -->
+    </div>
+</body>
+<script>
+    const accountLink = document.getElementById('accountLink');
+    const personalInfo = document.getElementById('personalInfo');
+
+    accountLink.addEventListener('click', function(event) {
+    event.preventDefault(); // Ngăn chặn hành động mặc định của liên kết
+    personalInfo.classList.toggle('show'); // Thêm hoặc xóa class 'show'
+});
+</script>

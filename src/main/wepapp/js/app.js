@@ -1,0 +1,4 @@
+function refreshTrang(){
+location.reload();
+}
+

@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý Tài Khoản</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <style>
+        .container {
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 20px;
+        }
+
+        #accountTable_wrapper {
+            margin-top: 20px;
+        }
+
+        .modal-header,
+        .modal-footer {
+            background-color: #f8f9fa;
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .btn-edit,
+        .btn-delete {
+            margin-right: 5px;
+        }
+
+    </style>
+</head>
+
+<!--<div class="sidebar">-->
+<!--    <div class="logo">-->
+<!--        <img src="../image/logo.jpg" alt="Logo">-->
+<!--    </div>-->
+<!--    <ul class="menu">-->
+<!--        <li><a href="index.html"><i class="fas fa-home"></i> Trang chủ</a></li>-->
+<!--        <li class="submenu">-->
+<!--            <a href="#"><i class="fas fa-user"></i> Quản lý lớp học</a>-->
+<!--            <ul class="submenu-items">-->
+<!--                <li><a href="role.html">Thông tin vai trò</a></li>-->
+<!--                <li><a href="subject.html">Thông tin môn học</a></li>-->
+<!--                <li><a href="teacher.html">Thông tin giáo viên</a></li>-->
+<!--                <li><a href="class.html">Thông tin lớp học</a></li>-->
+<!--                <li><a href="classAssignment.html">Phân công giảng dạy</a></li>-->
+<!--            </ul>-->
+<!--        </li>-->
+<!--        <li class="submenu">-->
+<!--            <a href="#"><i class="fas fa-book"></i> Quản lý học tập</a>-->
+<!--            <ul class="submenu-items">-->
+<!--                <li><a href="#">Quản lý điểm</a></li>-->
+<!--                <li><a href="#">Điểm danh</a></li>-->
+<!--            </ul>-->
+<!--        </li>-->
+<!--        <li class="submenu">-->
+<!--            <a href="#"><i class="fas fa-graduation-cap"></i> Quản lý thông tin</a>-->
+<!--            <ul class="submenu-items">-->
+<!--                <li><a href="#">Sự kiện</a></li>-->
+<!--                <li><a href="#">Hoạt động</a></li>-->
+<!--            </ul>-->
+<!--        </li>-->
+<!--        <li><a href="account.html"><i class="fa-solid fa-plus"></i>Quản lý tài khoản</a></li>-->
+<!--    </ul>-->
+<!--</div>-->
+<style>
+    .personal-info {
+        max-height: 0; /* Bắt đầu với chiều cao 0 để ẩn phần thông tin cá nhân */
+        overflow: hidden; /* Ẩn nội dung tràn ra */
+        padding: 0 20px; /* Padding bên trong nhưng không ảnh hưởng đến chiều cao ban đầu */
+        background-color: #ffffff;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin-top: 50px;
+        width: 250px;
+        margin-left: auto;
+        transition: max-height 0.5s ease, padding 0.5s ease; /* Tạo hiệu ứng cuộn mượt mà */
+    }
+    .personal-info.show {
+        max-height: 300px; /* Đặt chiều cao đủ lớn để chứa toàn bộ nội dung */
+        padding: 20px; /* Trả lại padding ban đầu khi hiển thị */
+    }
+
+    .personal-info h2 {
+        margin-bottom: 30px;
+        color: #2c3e50;
+    }
+
+    .personal-info p {
+        margin: 5px 0;
+        color: #34495e;
+    }
+
+    .account-info {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        padding: 20px;
+        width: 250px;
+        background-color: #ffffff;
+        border-radius: 10px;
+    }
+
+    .account-info i {
+        font-size: 24px;
+        margin-right: 10px;
+        color: #2c3e50;
+    }
+
+    .account-info a {
+        margin-right: 10px;
+        color: #2c3e50;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .account-info .logout-btn {
+        background-color: #e74c3c;
+        color: #fff;
+        padding: 5px 10px;
+        border-radius: 5px;
+        text-decoration: none;
+    }
+
+    .account-info .logout-btn:hover {
+        background-color: #c0392b;
+    }
+    .details{
+        color: #2c3e50;
+        border: none;
+        display: block;
+    }
+    .details p input{
+        color: #2c3e50;
+        border: none;
+        background-color: transparent;
+        font-size: 18px;
+    }
+</style>
+<body>
+<div class="sidebar">
+    <div class="logo">
+        <img src="../image/logo.jpg" alt="Logo">
+    </div>
+    <ul class="menu">
+        <li><a href="admin.html"><i class="fas fa-home"></i> Trang chủ</a></li>
+        <li><a href="account.html"><i class="fa-solid fa-plus"></i>Quản lý tài khoản</a></li>
+    </ul>
+</div>
+<div class="container">
+    <h1 class="text-center">Quản lý Tài Khoản</h1>
+    <div class="d-flex justify-content-between mb-3">
+        <div>
+            <select id="roleFilter" class="form-select">
+                <option value="">Tất cả Role</option>
+            </select>
+        </div>
+        <button class="btn btn-primary" id="addAccountBtn">Thêm Tài Khoản</button>
+    </div>
+    <table id="accountTable" class="table table-striped table-bordered" style="width:100%">
+        <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Email</th>
+            <th>Password</th>
+            <th>Role</th>
+            <th>Thao Tác</th>
+        </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <!-- Add/Edit Modal -->
+    <div class="modal fade" id="accountModal" tabindex="-1" aria-labelledby="accountModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="accountModalLabel">Thêm Tài Khoản</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="error-message" class="alert alert-danger d-none"></div>
+                    <form id="accountForm">
+                        <div class="form-group">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password" class="form-label">Mật Khẩu</label>
+                            <input type="password" class="form-control" id="password" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="role" class="form-label">Role</label>
+                            <select class="form-select" id="role">
+                                <option value="" selected>Chọn Role (mặc định là null)</option>
+                                <option value="Ban giám hiệu">Ban giám hiệu</option>
+                                <option value="Giáo viên chủ nhiệm">Giáo viên chủ nhiệm</option>
+                                <option value="Giáo viên bộ môn">Giáo viên bộ môn</option>
+                                <option value="Học sinh">Học sinh</option>
+                            </select>
+                        </div>
+                        <input type="hidden" id="accountId">
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-primary" id="saveAccountBtn">Lưu thay đổi</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+<script>
+    const accountLink = document.getElementById('accountLink');
+    const personalInfo = document.getElementById('personalInfo');
+
+    accountLink.addEventListener('click', function(event) {
+    event.preventDefault(); // Ngăn chặn hành động mặc định của liên kết
+    personalInfo.classList.toggle('show'); // Thêm hoặc xóa class 'show'
+});
+</script>
+
+
+<!-- jQuery, Bootstrap, and DataTables Scripts -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+    const apiUrl = 'http://localhost:8080/api/accounts';
+
+    // Initialize DataTable
+    const table = $('#accountTable').DataTable({
+        ajax: {
+            url: apiUrl,
+            dataSrc: '',
+            dataFilter: function(data) {
+                    // Parse the JSON data and sort it by classId in descending order
+                    let json = $.parseJSON(data);
+                    json = json.sort((a, b) => b.classId - a.classId);
+                    return JSON.stringify(json);
+                }
+        },
+        columns: [
+            { data: 'accountId', visible: false }, // Hide ID column
+            { data: 'email' },
+            { data: 'password' },
+            { data: 'roleName' },
+            {
+                data: null,
+                defaultContent: '<button class="btn btn-primary btn-edit">Sửa</button> <button class="btn btn-danger btn-delete">Xóa</button>',
+                orderable: false
+            }
+        ]
+    });
+
+    // Load Roles into Select
+    function loadRoles() {
+        const roles = [
+            { id: 'Ban giám hiệu', name: 'Ban giám hiệu' },
+            { id: 'Giáo viên chủ nhiệm', name: 'Giáo viên chủ nhiệm' },
+            { id: 'Giáo viên bộ môn', name: 'Giáo viên bộ môn' },
+            { id: 'Học sinh', name: 'Học sinh' }
+        ];
+        const roleSelect = $('#roleFilter');
+        roleSelect.empty();
+        roleSelect.append('<option value="">Tất cả Role</option>');
+        roles.forEach(role => {
+            roleSelect.append(`<option value="${role.id}">${role.name}</option>`);
+        });
+    }
+    loadRoles();
+
+    // Show error message
+    function showError(message) {
+        $('#error-message').text(message).removeClass('d-none');
+    }
+
+    // Hide error message
+    function hideError() {
+        $('#error-message').addClass('d-none');
+    }
+
+    // Show success alert
+    function showSuccess(message) {
+        alert(message);
+    }
+
+    // Add Account
+    $('#addAccountBtn').click(function() {
+        $('#accountModalLabel').text('Thêm Tài Khoản');
+        $('#accountForm')[0].reset();
+        $('#accountId').val('');
+        $('#role').val('');  // Reset role dropdown
+        $('#accountModal').modal('show');
+        hideError(); // Hide error message
+    });
+
+    $('#saveAccountBtn').click(function() {
+        const accountId = $('#accountId').val();
+        const account = {
+            email: $('#email').val(),
+            password: $('#password').val(),
+            roleName: $('#role').val()
+        };
+
+        if (accountId) {
+            // Update Account
+            $.ajax({
+                url: `${apiUrl}/${accountId}`,
+                type: 'PUT',
+                contentType: 'application/json',
+                data: JSON.stringify(account),
+                success: function() {
+                    $('#accountModal').modal('hide');
+                    table.ajax.reload();
+                    showSuccess('Cập nhật tài khoản thành công!');
+                },
+                error: function(xhr) {
+                    showError(xhr.responseText);
+                }
+            });
+        } else {
+            // Add New Account
+            $.ajax({
+                url: apiUrl,
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(account),
+                success: function() {
+                    $('#accountModal').modal('hide');
+                    table.ajax.reload();
+                    showSuccess('Tạo tài khoản mới thành công!');
+                },
+                error: function(xhr) {
+                    showError(xhr.responseText);
+                }
+            });
+        }
+    });
+
+    // Edit Account
+    $('#accountTable').on('click', '.btn-edit', function() {
+        const data = table.row($(this).parents('tr')).data();
+        $('#accountModalLabel').text('Sửa Tài Khoản');
+        $('#email').val(data.email);
+        $('#password').val(data.password);
+        $('#role').val(data.roleName);
+        $('#accountId').val(data.accountId);
+        $('#accountModal').modal('show');
+        hideError(); // Hide error message
+    });
+
+    // Delete Account
+    $('#accountTable').on('click', '.btn-delete', function() {
+        const data = table.row($(this).parents('tr')).data();
+        if (confirm(`Bạn có chắc chắn muốn xóa tài khoản ${data.email}?`)) {
+            $.ajax({
+                url: `${apiUrl}/${data.accountId}`,
+                type: 'DELETE',
+                success: function() {
+                    table.ajax.reload();
+                },
+                error: function(xhr) {
+                    showError(xhr.responseText);
+                }
+            });
+        }
+    });
+
+    // Filter by Role
+    $('#roleFilter').change(function() {
+        const role = $(this).val();
+        table.column(3).search(role).draw(); // Filter on the role column
+    });
+});
+
+</script>
+
+</html>
